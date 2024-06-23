@@ -3,11 +3,120 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scrollable Chart</title>
-    <link rel="stylesheet" href="/css/chart.css">
     <link rel="stylesheet" href="/css/header.css">
-    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <title>Scrollable Chart</title>
+    <style>
+        .container{
+            margin: 5rem;
+            background: white;
+
+        }
+        .chart_header{
+            padding: 5rem;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+        .button-wrapper{
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-end;
+
+        }
+        .chart-button{
+            padding: 5px;
+        }
+        .data-grid{
+            display: flex;
+            flex-direction: column;
+            margin: 5rem;
+            padding: 5rem;
+            background: white ;
+
+        }
+        .header{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+        .card {
+            width: 90vw;
+            margin: 1rem 5rem;
+            border-width: 1px;
+            border-color: rgba(219, 234, 254, 1);
+            border-radius: 1rem;
+            background-color: rgba(255, 255, 255, 1);
+            padding: 1rem;
+        }
+
+        .news-header{
+            display: flex;
+            align-items: center;
+            grid-gap: 1rem;
+            gap: 1rem;
+        }
+
+        .icon {
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 9999px;
+            background-color: rgba(96, 165, 250, 1);
+            padding: 0.5rem;
+            color: rgba(255, 255, 255, 1);
+        }
+
+        .icon svg {
+            height: 1rem;
+            width: 1rem;
+        }
+
+        .alert {
+            font-weight: 600;
+            color: rgba(107, 114, 128, 1);
+        }
+
+        .message {
+            margin-top: 1rem;
+            color: rgba(107, 114, 128, 1);
+        }
+
+        .actions {
+            margin-top: 1.5rem;
+        }
+
+        .actions a {
+            text-decoration: none;
+        }
+
+        .mark-as-read, .read {
+            display: inline-block;
+            border-radius: 0.5rem;
+            width: 100%;
+            padding: 0.75rem 1.25rem;
+            text-align: center;
+            font-size: 0.875rem;
+            line-height: 1.25rem;
+            font-weight: 600;
+        }
+
+        .read {
+            background-color: rgba(59, 130, 246, 1);
+            color: rgba(255, 255, 255, 1);
+        }
+
+        .mark-as-read {
+            margin-top: 0.5rem;
+            background-color: rgba(249, 250, 251, 1);
+            color: rgba(107, 114, 128, 1);
+            transition: all .15s ease;
+        }
+
+        .mark-as-read:hover {
+            background-color: rgb(230, 231, 233);
+        }
+    </style>
 </head>
 <body>
 <header>
@@ -55,11 +164,11 @@
 
 <div class="container">
     <div class="chart_header">
-        <h1>AAPL</h1>
+        <h1 th:text="${symbol}"></h1>
         <div class="button-wrapper">
-            <button onclick="changeChartType('line')">Line Chart</button>
-            <button onclick="changeChartType('bar')">Bar Chart</button>
-            <button onclick="changeChartType('candlestick')">candlestick</button>
+            <button class="chart-button" onclick="changeChartType('line')">Line Chart</button>
+            <button class="chart-button"onclick="changeChartType('bar')">Bar Chart</button>
+            <button class="chart-button"><a href="/JapaneseChart">Candlestick</a></button>
         </div>
     </div>
 
@@ -67,6 +176,57 @@
         <canvas id="myChart"></canvas>
     </div>
 </div>
+
+<div th:switch="${user}">
+    <h2 th:case="null">No users yet!</h2>
+    <div class="data-grid" th:case="*">
+        <h2>Data</h2>
+        <div class="header">
+            <!-- Headers -->
+            <div >Time</div>
+            <div >Open</div>
+            <div >High</div>
+            <div>Low</div>
+            <div>Close</div>
+        </div>
+
+        <div>
+            <!-- Data Rows (use a loop in your template engine) -->
+            <div class="header" th:each="user : ${user}">
+                <div th:text="${user.x}"></div>
+                <div th:text="${user.o}"></div>
+                <div th:text="${user.h}"></div>
+                <div th:text="${user.l}"></div>
+                <div th:text="${user.c}"></div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<div class="card" th:each="news : ${news}">
+    <div class="news-header">
+    <span class="icon">
+      <svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+        <path clip-rule="evenodd" d="M18 3a1 1 0 00-1.447-.894L8.763 6H5a3 3 0 000 6h.28l1.771 5.316A1 1 0 008 18h1a1 1 0 001-1v-4.382l6.553 3.276A1 1 0 0018 15V3z" fill-rule="evenodd"></path>
+      </svg>
+    </span>
+        <p th:text="${news.title}"class="alert"></p>
+    </div>
+
+    <p th:text="${news.content}" class="message">
+    </p>
+    <br>
+
+    <p class="message">Sentiment: </p>
+    <p th:text="${news.sentiment}" class="message">
+    </p>
+
+</div>
+
+
+
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom"></script>
@@ -81,7 +241,7 @@
             borderColor: 'rgba(75, 192, 192, 1)',
             backgroundColor: 'rgba(75, 192, 192, 0.2)',
             borderWidth: 1,
-            fill: false
+            fill: true
         }]
     };
 
@@ -91,7 +251,7 @@
         data: data,
         options: {
             responsive: true,
-            maintainAspectRatio: false,
+            maintainAspectRatio: true,
             scales: {
                 x: {
                     type: 'category',
@@ -128,80 +288,14 @@
         }
     };
 
-
-    function CreateCandleStick(){
-
-        const candlestickData = [
-            {x: new Date('2023-01-01'), o: 100, h: 110, l: 90, c: 105},
-            {x: new Date('2023-01-02'), o: 105, h: 130, l: 100, c: 115},
-            {x: new Date('2023-01-03'), o: 115, h: 125, l: 105, c: 120},
-            {x: new Date('2023-01-04'), o: 120, h: 135, l: 115, c: 130},
-            {x: new Date('2023-01-05'), o: 130, h: 145, l: 125, c: 140},
-            {x: new Date('2023-01-06'), o: 140, h: 160, l: 130, c: 150},
-            {x: new Date('2023-01-07'), o: 150, h: 170, l: 140, c: 160},
-            {x: new Date('2023-01-08'), o: 160, h: 180, l: 150, c: 170},
-            {x: new Date('2023-01-09'), o: 170, h: 190, l: 160, c: 180},
-            {x: new Date('2023-01-10'), o: 180, h: 200, l: 170, c: 190}
-        ];
-
-
-        const trace = {
-            x: candlestickData.map(d => d.x),
-            open: candlestickData.map(d => d.o),
-            high: candlestickData.map(d => d.h),
-            low: candlestickData.map(d => d.l),
-            close: candlestickData.map(d => d.c),
-            type: 'candlestick',
-            xaxis: 'x',
-            yaxis: 'y'
-        };
-
-        const layout = {
-            title: 'Japanese Candlestick Chart',
-            xaxis: {
-                title: 'Date',
-                type: 'date'
-            },
-            yaxis: {
-                title: 'Price',
-                autorange: true,
-                fixedrange: false  // This makes the y-axis zoomable
-            },
-            plugins: {
-                zoom: {
-                    pan: {
-                        enabled: true,
-                        mode: 'y'
-                    },
-                    zoom: {
-                        wheel: {
-                            enabled: true
-                        },
-                        pinch: {
-                            enabled: true
-                        },
-                        mode: 'y'
-                    }
-                }
-            }
-        };
-        console.log("Im here")
-        myChart=Plotly.newPlot('chart-wrapper', [trace], layout);
-    }
-
-
     let myChart = new Chart(ctx, config);
 
     function changeChartType(newType) {
         if (myChart) {
             myChart.destroy();
         }
-        if(newType == "candlestick"){
-            CreateCandleStick()
-        }else{
             config.type = newType;
             myChart = new Chart(ctx, config);
-        }
 
     }
 </script>

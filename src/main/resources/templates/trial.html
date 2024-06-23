@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:switch="${user}">
+    <h2 th:case="null">No users yet!</h2>
+    <div th:case="*">
+        <h2>Users</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>Time</th>
+                <th>Open</th>
+                <th>High</th>
+                <th>Low</th>
+                <th>Close</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="user : ${user}">
+                <td th:text="${user.x}"></td>
+                <td th:text="${user.o}"></td>
+                <td th:text="${user.h}"></td>
+                <td th:text="${user.l}"></td>
+                <td th:text="${user.c}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

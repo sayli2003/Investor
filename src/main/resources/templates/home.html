@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Home</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container">
+    <img src="/images/logo.png" alt="Citi" style="display: block; margin: 0 auto 20px;">
+    <h1>Welcome, <span th:text="${user.name}"></span></h1>
+    <p>Your balance: <span th:text="${user.balance}"></span></p>
+</div>
+</body>
+</html>

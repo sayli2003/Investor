@@ -9,7 +9,7 @@
         .container{
             margin: 5rem;
             background: white;
-
+            border-radius: 4px;
         }
         .chart_header{
             padding: 5rem;
@@ -38,6 +38,46 @@
             display: flex;
             flex-direction: row;
             justify-content: space-between;
+        }
+
+        .submit-button {
+            color: #ffffff;
+            padding: 0.7em 1.7em;
+            font-size: 18px;
+            border-radius: 0.5em;
+            background: #255BE3 ;
+            cursor: pointer;
+            border: 1px solid #e8e8e8;
+            transition: all 0.3s;
+        }
+
+        .submit-button:hover {
+            border: 1px solid white;
+        }
+
+        .submit-button:active {
+        }
+
+        .input {
+            width: 60vw;
+            background-color: #f5f5f5;
+            color: #242424;
+            padding: .15rem .5rem;
+            min-height: 50px;
+            border-radius: 4px;
+            outline: none;
+            border: none;
+            line-height: 1.15;
+            box-shadow: 0px 10px 20px -18px;
+        }
+
+        input:focus {
+            border-bottom: 2px solid #5b5fc7;
+            border-radius: 4px 4px 2px 2px;
+        }
+
+        input:hover {
+            outline: 1px solid lightgrey;
         }
         .card {
             width: 90vw;
@@ -105,7 +145,13 @@
             background-color: rgba(59, 130, 246, 1);
             color: rgba(255, 255, 255, 1);
         }
-
+        .search-bar{
+            margin-top: 20px;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+        }
         .mark-as-read {
             margin-top: 0.5rem;
             background-color: rgba(249, 250, 251, 1);
@@ -141,18 +187,15 @@
             </a>
         </div>
         <ul class="nav-links">
-            <li><a href="#">Home</a></li>
-            <li><a href="#">About</a></li>
-            <li><a href="#">Services</a></li>
-            <li class="dropdown">
-                <a href="#" class="dropbtn">More</a>
-                <div class="dropdown-content">
-                    <a href="#">Link 1</a>
-                    <a href="#">Link 2</a>
-                    <a href="#">Link 3</a>
-                </div>
-            </li>
-            <li><a href="#">Contact</a></li>
+            <li><a href="/chart">Home</a></li>
+            <li><a href="/about">About</a></li>
+<!--            <li><a href="#">Services</a></li>-->
+            <li><a href="/portfolio">Portfolio</a></li>
+
+            <li><a href="/wishlist">Wishlist</a></li>
+
+            <li><a href="/orders.html">Order</a></li>
+            <li><a href="/logout">Logout</a></li>
         </ul>
         <div class="hamburger">
             <span></span>
@@ -162,13 +205,24 @@
     </nav>
 </header>
 
+<div class="search-bar">
+    <form th:action="@{/api/search}" th:object="${searchForm}" method="post">
+        <input class="input" type="text" th:field="*{query}" id="query"placeholder="Search...">
+        <span th:if="${#fields.hasErrors('query')}" th:errors="*{query}"></span>
+        <button class="submit-button">Submit</button>
+    </form>
+
+</div>
+
+<!--Chart-->
 <div class="container">
+
+
     <div class="chart_header">
         <h1 th:text="${symbol}"></h1>
         <div class="button-wrapper">
             <button class="chart-button" onclick="changeChartType('line')">Line Chart</button>
             <button class="chart-button"onclick="changeChartType('bar')">Bar Chart</button>
-            <button class="chart-button"><a href="/JapaneseChart">Candlestick</a></button>
         </div>
     </div>
 
@@ -177,33 +231,6 @@
     </div>
 </div>
 
-<div th:switch="${user}">
-    <h2 th:case="null">No users yet!</h2>
-    <div class="data-grid" th:case="*">
-        <h2>Data</h2>
-        <div class="header">
-            <!-- Headers -->
-            <div >Time</div>
-            <div >Open</div>
-            <div >High</div>
-            <div>Low</div>
-            <div>Close</div>
-        </div>
-
-        <div>
-            <!-- Data Rows (use a loop in your template engine) -->
-            <div class="header" th:each="user : ${user}">
-                <div th:text="${user.x}"></div>
-                <div th:text="${user.o}"></div>
-                <div th:text="${user.h}"></div>
-                <div th:text="${user.l}"></div>
-                <div th:text="${user.c}"></div>
-            </div>
-        </div>
-
-    </div>
-
-</div>
 
 <div class="card" th:each="news : ${news}">
     <div class="news-header">
@@ -230,14 +257,30 @@
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom"></script>
-<script>
+
+
+<script th:inline="javascript">
+
+    function SubmitSearch(){
+        document.getElementById('query').value;
+        fetch('api/search', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ query })
+        });
+    }
+
+
+
     let chartType = 'line';
     const ctx = document.getElementById('myChart').getContext('2d');
     const data = {
-        labels: ['1-22',' 2-22',' 3-22',' 4-22',' 5-22',' 6-22','7-22','8-22','9-22','10-22','11-22','12-22'],
+        labels: /*[[${labels}]]*/,
         datasets: [{
             label: 'Stock Price',
-            data: [65, 59, 80, 81, 56, 55, 40, 75, 70, 60, 85, 90],
+            data: /*[[${data}]]*/,
             borderColor: 'rgba(75, 192, 192, 1)',
             backgroundColor: 'rgba(75, 192, 192, 0.2)',
             borderWidth: 1,
@@ -294,10 +337,14 @@
         if (myChart) {
             myChart.destroy();
         }
-            config.type = newType;
-            myChart = new Chart(ctx, config);
+        config.type = newType;
+        myChart = new Chart(ctx, config);
 
     }
+    /*]]>*/
+</script>
+<script>
+
 </script>
 </body>
 </html>

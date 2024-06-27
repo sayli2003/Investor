@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Order Page</title>
+    <link rel="stylesheet" href="/css/header.css">
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: rgba(37, 91, 227, 0.25);
+            margin: 0px;
+            color: #ffffff; /* Set text color to white */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .container {
+            width: 80vw;
+            margin: 30px;
+            background: #ffffff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            color: #000000; /* Set text color inside the container to black */
+            border-radius: 8px;
+        }
+        h1, h2 {
+            text-align: center;
+            color: #255BE3; /* Set heading text color to a shade of blue */
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #255BE3; /* Set label text color to a shade of blue */
+            font-weight: bold;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ddd; /* Add a border to input fields */
+            border-radius: 4px;
+        }
+        .form-group button {
+            padding: 10px 20px;
+            background: #255BE3 ; /* Set button background color to green */
+            color: #ffffff;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        .form-group button:hover {
+            background: #255BE3 ; /* Darken button color on hover */
+        }
+        .order-list {
+            margin-top: 20px;
+        }
+        .order-item {
+            background: #f9f9f9; /* Light gray background for order items */
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <nav class="navbar">
+        <div class="logo">
+            <a href="#">
+                <svg width="89" height="89" viewBox="0 0 89 89" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g clip-path="url(#clip0_383_492)">
+                        <path d="M16.5485 50.2744C16.5485 44.5 21.2765 40.0045 27.4384 40.0045C31.0038 40.0045 34.2592 41.5934 36.1194 43.9962L33.4453 46.6702C32.7361 45.7621 31.8311 45.0257 30.7978 44.5157C29.7645 44.0058 28.6294 43.7355 27.4772 43.7249C23.7955 43.7249 20.8502 46.4765 20.8502 50.2744C20.8502 54.1111 23.7955 56.8626 27.4772 56.8626C28.6707 56.8612 29.8477 56.5841 30.9165 56.0531C31.9853 55.522 32.9171 54.7513 33.6391 53.801L36.2744 56.3976C34.4917 58.9166 31.0813 60.583 27.4384 60.583C21.2765 60.583 16.5485 56.0875 16.5485 50.2744Z" fill="#255BE3"/>
+                        <path d="M39.7623 40.7021H43.9865V59.8855H39.7623V40.7021Z" fill="#255BE3"/>
+                        <path d="M51.8537 54.7311V44.2675H47.2419V40.7021H52.0474V36.5941L56.0004 34.6564V40.7021H62.2786V44.2675H56.0004V54.0336C56.0004 55.9713 57.0855 56.8239 59.1395 56.8239C60.2082 56.8294 61.2656 56.6047 62.2398 56.165V59.808C61.0192 60.3435 59.697 60.608 58.3644 60.583C54.6052 60.583 51.8537 58.5291 51.8537 54.7311Z" fill="#255BE3"/>
+                        <path d="M65.6115 40.7021H69.8357V59.8855H65.6115V40.7021Z" fill="#255BE3"/>
+                        <path d="M54.7602 28.4945C58.2295 28.4862 61.6499 29.3129 64.7324 30.9047C67.815 32.4966 70.4692 34.8069 72.471 37.6405H67.5492C65.9359 35.8474 63.9637 34.4136 61.7605 33.4321C59.5572 32.4506 57.1722 31.9434 54.7602 31.9434C52.3483 31.9434 49.9632 32.4506 47.76 33.4321C45.5567 34.4136 43.5845 35.8474 41.9713 37.6405H37.0495C39.0512 34.8069 41.7055 32.4966 44.788 30.9047C47.8706 29.3129 51.2909 28.4862 54.7602 28.4945Z" fill="#FF3C28"/>
+                    </g>
+                    <defs>
+                        <clipPath id="clip0_383_492">
+                            <rect width="56" height="32.3599" fill="white" transform="translate(16.5 28.3201)"/>
+                        </clipPath>
+                    </defs>
+                </svg>
+
+            </a>
+        </div>
+        <ul class="nav-links">
+            <li><a href="/chart">Home</a></li>
+            <li><a href="#">About</a></li>
+<!--            <li><a href="#">Services</a></li>-->
+            <li><a href="/portfolio">Portfolio</a></li>
+
+            <li><a href="/wishlist">Wishlist</a></li>
+
+            <li><a href="/orders.html">Order</a></li>
+            <li><a href="/logout">Logout</a></li>
+        </ul>
+        <div class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+</header>
+
+<div class="container">
+    <h1>Order Page</h1>
+    <div class="form-group">
+        <label for="stockName">Stock Name</label>
+        <input type="text" id="stockName">
+    </div>
+    <div class="form-group">
+        <label for="price">Price</label>
+        <input type="number" id="price">
+    </div>
+    <div class="form-group">
+        <label for="quantity">Quantity</label>
+        <input type="number" id="quantity">
+    </div>
+    <div class="form-group">
+        <button onclick="buyStock()">Buy Stock</button>
+        <button onclick="sellStock()">Sell Stock</button>
+    </div>
+<!--    <h2>Orders</h2>-->
+<!--    <div id="orderList" class="order-list"></div>-->
+</div>
+<script>
+    async function buyStock() {
+        const stockName = document.getElementById('stockName').value;
+        const price = document.getElementById('price').value;
+        const quantity = document.getElementById('quantity').value;
+
+        const response = await fetch('/api/orders/buy', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ stockName, price, quantity })
+        });
+        const result = await response.json();
+        alert(result.message);
+        loadOrders(userId);
+    }
+
+    async function sellStock() {
+        const stockName = document.getElementById('stockName').value;
+        const price = document.getElementById('price').value;
+        const quantity = document.getElementById('quantity').value;
+
+        const response = await fetch('/api/orders/sell', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ stockName, price, quantity })
+        });
+        const result = await response.json();
+        alert(result.message);
+        loadOrders(userId);
+    }
+
+    async function loadOrders(userId) {
+        const response = await fetch(`/api/orders/${userId}/orders`);
+        const orders = await response.json();
+        const orderList = document.getElementById('orderList');
+        orderList.innerHTML = '';
+        orders.forEach(order => {
+            const orderItem = document.createElement('div');
+            orderItem.className = 'order-item';
+            orderItem.innerHTML = `User ID: ${order.userId} | Stock: ${order.stockName} | Price: ${order.price} | Quantity: ${order.quantity}`;
+            orderList.appendChild(orderItem);
+        });
+    }
+
+    document.getElementById('userId').addEventListener('input', function () {
+        const userId = this.value;
+        if (userId) {
+            loadOrders(userId);
+        }
+    });
+</script>
+</body>
+</html>

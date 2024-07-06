@@ -36,13 +36,21 @@ public class UserController {
 
     @PostMapping("/registering")
     public String registerUser(UserEntity user, BindingResult result, Model model) {
-
-        if (result.hasErrors()) {
+        try{
+            if (result.hasErrors()) {
+                return "redirect:/register";
+            }
+            userService.registerUser(user);
+            UserEntity loggeduser = userService.loginUser(user.getUserId(), user.getPassword());
+            logger.setUser(loggeduser);
+            model.addAttribute("message", "User registered successfully!");
+            return "redirect:/";
+        }
+        catch(Exception e){
+            model.addAttribute("message","Email already registered");
             return "redirect:/register";
         }
-        userService.registerUser(user);
-        model.addAttribute("message", "User registered successfully!");
-        return "redirect:/";
+
     }
 
     @PostMapping("/login")
